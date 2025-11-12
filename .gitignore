@@ -25,3 +25,8 @@ temp_frame.jpg
 # Logs and checkpoints
 logs/
 checkpoints/
+
+myenv/
+*.npz
+*.keras
+
