@@ -1,11 +1,16 @@
 Flask==3.0.0
 flask-cors==4.0.0
-deepface==0.0.92
-opencv-python==4.8.1.78
-numpy==1.23.5
+gunicorn==21.2.0
+
+# ML stack
 tensorflow==2.12.0
+keras==2.12.0
+numpy==1.23.5
+opencv-python-headless==4.7.0.72
+mediapipe==0.10.8
+
+# Deepface optional (but works)
+deepface==0.0.92
+
+# utilities
 pillow
-setuptools==68.0.0
-wheel==0.41.2
-mediapipe
-gunicorn
