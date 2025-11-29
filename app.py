@@ -1918,20 +1918,35 @@ def remove_song_from_playlist(playlist_id, song_id):
 # MAIN
 # ============================================================
 
+# ============================================================
+# AUTO-INITIALIZE DATABASE (runs on startup)
+# ============================================================
+def initialize_app():
+    """Initialize database on app startup"""
+    try:
+        init_sqlite()
+        songs_collection.create_index('emotions')
+        print("\n" + "="*60)
+        print("🎵 VIBESYNC - DATABASE INITIALIZED")
+        print("="*60)
+        print(f"\n📦 MongoDB: {MONGO_URI}")
+        print(f"📊 Songs in DB: {songs_collection.count_documents({})}")
+        print(f"💾 SQLite: {SQLITE_DB}")
+        print("\n👤 Admin Credentials:")
+        print("   Email: admin@music.com")
+        print("   Pass:  admin123")
+        print("="*60 + "\n")
+    except Exception as e:
+        print(f"Error initializing database: {e}")
+
+# Initialize on import (runs when Gunicorn loads the app)
+initialize_app()
+
+# ============================================================
+# MAIN
+# ============================================================
 if __name__ == '__main__':
-    # Initialize databases
-    init_sqlite()
-    songs_collection.create_index('emotions')
-    
-    print("\n" + "="*60)
-    print("🎵 VIBESYNC - FULL STACK WITH ADMIN")
-    print("="*60)
-    print(f"\n📦 MongoDB: {MONGO_URI}")
-    print(f"📊 Songs in DB: {songs_collection.count_documents({})}")
-    print(f"💾 SQLite: {SQLITE_DB}")
-    print("\n👤 Admin Credentials:")
-    print("   Email: admin@music.com")
-    print("   Pass:  admin123")
+    # This only runs for local development
     print("\n🌐 URLs:")
     print("   Main:   http://localhost:5000")
     print("   Login:  http://localhost:5000/login")
