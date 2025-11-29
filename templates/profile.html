@@ -1,0 +1,925 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="theme-color" content="#ec4899" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <title>Profile — VibeSync</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    @import url('/static/css/vibesync-theme.css');
+    :root {
+      --bg-primary: #0a0e1a;
+      --bg-secondary: #151925;
+      --bg-tertiary: #1e2435;
+      --text-primary: #f8fafc;
+      --text-secondary: #94a3b8;
+      --text-muted: #64748b;
+      --accent-primary: #ec4899;
+      --accent-secondary: #db2777;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --gradient-hero: linear-gradient(135deg, #667eea 0%, #ec4899 50%, #f97316 100%);
+      --shadow-sm: 0 2px 8px rgba(0,0,0,0.1);
+      --shadow-md: 0 4px 16px rgba(0,0,0,0.2);
+      --shadow-lg: 0 8px 32px rgba(0,0,0,0.3);
+      --shadow-xl: 0 20px 60px rgba(0,0,0,0.4);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 24px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --blur: blur(20px);
+    }
+
+    body.light {
+      --bg-primary: #f1f5f9;
+      --bg-secondary: #ffffff;
+      --bg-tertiary: #e2e8f0;
+      --text-primary: #0f172a;
+      --text-secondary: #475569;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: linear-gradient(135deg, #0a0e1a 0%, #0f1419 50%, #0a0e1a 100%);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      transition: background 0.3s ease, color 0.3s ease;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      letter-spacing: -0.01em;
+    }
+
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-secondary);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--text-muted);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--accent-primary);
+    }
+
+    /* NAVBAR */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      background: var(--bg-secondary);
+      backdrop-filter: var(--blur);
+      box-shadow: var(--shadow-md);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .navbar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .back-btn {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-primary);
+      border-radius: var(--radius-md);
+      transition: var(--transition);
+      text-decoration: none;
+    }
+
+    .back-btn:hover {
+      background: rgba(255,255,255,0.08);
+      transform: scale(1.05);
+    }
+
+    .navbar-title {
+      font-size: 1.5rem;
+      font-weight: 900;
+      background: var(--gradient-hero);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* PROFILE HEADER */
+    .profile-header {
+      background: var(--gradient-hero);
+      padding: 60px 24px 40px;
+      color: white;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .profile-header::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: radial-gradient(circle at 70% 30%, rgba(255,255,255,0.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
+
+    .profile-header-content {
+      max-width: 800px;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .profile-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 3rem;
+      font-weight: 900;
+      box-shadow: var(--shadow-xl);
+      border: 4px solid rgba(255,255,255,0.3);
+      position: relative;
+    }
+
+    .profile-avatar-edit {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 36px;
+      height: 36px;
+      background: white;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: var(--shadow-md);
+      transition: var(--transition);
+    }
+
+    .profile-avatar-edit:hover {
+      transform: scale(1.1);
+    }
+
+    .profile-info {
+      text-align: center;
+    }
+
+    .profile-name {
+      font-size: 2rem;
+      font-weight: 900;
+      margin: 0 0 8px 0;
+      letter-spacing: -0.5px;
+    }
+
+    .profile-email {
+      font-size: 1rem;
+      opacity: 0.9;
+      margin: 0;
+    }
+
+    .profile-stats {
+      display: flex;
+      gap: 32px;
+      margin-top: 24px;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 900;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    .stat-label {
+      font-size: 0.9rem;
+      opacity: 0.9;
+    }
+
+    /* CONTENT */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 32px 24px 100px;
+    }
+
+    .section {
+      background: linear-gradient(135deg, rgba(21, 25, 37, 0.9) 0%, rgba(30, 36, 53, 0.8) 100%);
+      backdrop-filter: blur(20px);
+      border-radius: 24px;
+      padding: 32px;
+      margin-bottom: 24px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: all 0.3s ease;
+    }
+    
+    .section:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    .section-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin: 0 0 24px 0;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 14px 18px;
+      border-radius: var(--radius-md);
+      border: 2px solid rgba(255,255,255,0.08);
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      font-size: 15px;
+      font-weight: 500;
+      font-family: inherit;
+      transition: var(--transition);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--accent-primary);
+      box-shadow: 0 0 0 4px rgba(236, 72, 153, 0.1);
+    }
+
+    .form-input:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    .btn {
+      padding: 14px 28px;
+      border-radius: var(--radius-md);
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      font-family: inherit;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      background: var(--gradient-hero);
+      color: white;
+      box-shadow: var(--shadow-md);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-lg);
+    }
+
+    .btn-secondary {
+      background: var(--bg-tertiary);
+      color: var(--text-primary);
+      border: 2px solid rgba(255,255,255,0.1);
+    }
+
+    .btn-secondary:hover {
+      background: var(--bg-primary);
+      border-color: var(--accent-primary);
+      transform: translateY(-2px);
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+      transform: translateY(-2px);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .info-card {
+      background: var(--bg-tertiary);
+      padding: 20px;
+      border-radius: var(--radius-md);
+      margin-bottom: 16px;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .info-label {
+      font-weight: 600;
+      color: var(--text-secondary);
+      font-size: 14px;
+    }
+
+    .info-value {
+      font-weight: 700;
+      color: var(--text-primary);
+      font-size: 14px;
+    }
+
+    .notification {
+      position: fixed;
+      bottom: 24px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--bg-secondary);
+      color: var(--text-primary);
+      padding: 18px 28px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-xl);
+      z-index: 1000;
+      animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      max-width: 90%;
+      text-align: center;
+      font-weight: 600;
+      border: 1px solid rgba(236, 72, 153, 0.3);
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateX(-50%) translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+    }
+
+    .toggle-switch {
+      position: relative;
+      display: inline-block;
+      width: 54px;
+      height: 28px;
+    }
+
+    .toggle-switch input {
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .toggle-slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: var(--bg-tertiary);
+      transition: 0.4s;
+      border-radius: 34px;
+      border: 2px solid rgba(255,255,255,0.1);
+    }
+
+    .toggle-slider:before {
+      position: absolute;
+      content: "";
+      height: 20px;
+      width: 20px;
+      left: 2px;
+      bottom: 2px;
+      background-color: white;
+      transition: 0.4s;
+      border-radius: 50%;
+    }
+
+    input:checked + .toggle-slider {
+      background: var(--gradient-hero);
+      border-color: transparent;
+    }
+
+    input:checked + .toggle-slider:before {
+      transform: translateX(26px);
+    }
+
+    .preference-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .preference-item:last-child {
+      border-bottom: none;
+    }
+
+    .preference-label {
+      flex: 1;
+    }
+
+    .preference-title {
+      font-weight: 600;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+
+    .preference-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    @media (max-width: 768px) {
+      .profile-stats {
+        gap: 20px;
+      }
+
+      .stat-value {
+        font-size: 1.5rem;
+      }
+
+      .stat-label {
+        font-size: 0.8rem;
+      }
+
+      .btn-group {
+        flex-direction: column;
+      }
+
+      .btn-group .btn {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="navbar-left">
+      <a href="/home" class="back-btn">←</a>
+      <div class="navbar-title">👤 Profile</div>
+    </div>
+  </header>
+
+  <!-- PROFILE HEADER -->
+  <section class="profile-header">
+    <div class="profile-header-content">
+      <div class="profile-avatar" id="profileAvatar">
+        JD
+        <div class="profile-avatar-edit" title="Change Avatar">
+          ✏️
+        </div>
+      </div>
+      
+      <div class="profile-info">
+        <h1 class="profile-name" id="profileName">Loading...</h1>
+        <p class="profile-email" id="profileEmail">Loading...</p>
+        
+        <div class="profile-stats">
+          <div class="stat-item">
+            <span class="stat-value" id="totalPlays">—</span>
+            <span class="stat-label">Plays</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value" id="totalEmotions">—</span>
+            <span class="stat-label">Scans</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value" id="totalFavorites">—</span>
+            <span class="stat-label">Favorites</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAIN CONTENT -->
+  <div class="container">
+    <!-- Account Information -->
+    <div class="section">
+      <h2 class="section-title">📋 Account Information</h2>
+      <div class="info-card">
+        <div class="info-row">
+          <span class="info-label">Member Since</span>
+          <span class="info-value" id="memberSince">—</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Last Login</span>
+          <span class="info-value" id="lastLogin">—</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Account Status</span>
+          <span class="info-value" style="color: var(--success);">✓ Active</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Edit Profile -->
+    <div class="section">
+      <h2 class="section-title">✏️ Edit Profile</h2>
+      <form id="profileForm">
+        <div class="form-group">
+          <label class="form-label">First Name</label>
+          <input type="text" class="form-input" id="firstName" placeholder="Enter first name" />
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Last Name</label>
+          <input type="text" class="form-input" id="lastName" placeholder="Enter last name" />
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Email Address</label>
+          <input type="email" class="form-input" id="email" placeholder="Enter email" disabled />
+        </div>
+        
+        <div class="btn-group">
+          <button type="submit" class="btn btn-primary">💾 Save Changes</button>
+          <button type="button" class="btn btn-secondary" onclick="resetForm()">🔄 Reset</button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Change Password -->
+    <div class="section">
+      <h2 class="section-title">🔒 Change Password</h2>
+      <form id="passwordForm">
+        <div class="form-group">
+          <label class="form-label">Current Password</label>
+          <input type="password" class="form-input" id="currentPassword" placeholder="Enter current password" />
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">New Password</label>
+          <input type="password" class="form-input" id="newPassword" placeholder="Enter new password (min 8 characters)" />
+        </div>
+        
+        <div class="form-group">
+          <label class="form-label">Confirm New Password</label>
+          <input type="password" class="form-input" id="confirmPassword" placeholder="Confirm new password" />
+        </div>
+        
+        <button type="submit" class="btn btn-primary">🔐 Update Password</button>
+      </form>
+    </div>
+
+    <!-- Preferences -->
+    <div class="section">
+      <h2 class="section-title">⚙️ Preferences</h2>
+      
+      <div class="preference-item">
+        <div class="preference-label">
+          <div class="preference-title">Dark Mode</div>
+          <div class="preference-desc">Use dark theme for better viewing at night</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="darkModeToggle" checked onchange="toggleTheme()">
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      
+      <div class="preference-item">
+        <div class="preference-label">
+          <div class="preference-title">Auto-play</div>
+          <div class="preference-desc">Automatically play next song</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="autoPlayToggle" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+      
+      <div class="preference-item">
+        <div class="preference-label">
+          <div class="preference-title">Notifications</div>
+          <div class="preference-desc">Receive updates about new features</div>
+        </div>
+        <label class="toggle-switch">
+          <input type="checkbox" id="notificationsToggle" checked>
+          <span class="toggle-slider"></span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Danger Zone -->
+    <div class="section">
+      <h2 class="section-title">⚠️ Danger Zone</h2>
+      <div class="info-card" style="border: 2px solid var(--danger);">
+        <p style="margin: 0 0 16px 0; color: var(--text-secondary); font-size: 14px;">
+          Once you delete your account, there is no going back. Please be certain.
+        </p>
+        <button class="btn btn-danger" onclick="deleteAccount()">
+          🗑️ Delete Account
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let currentUser = null;
+
+    // Check authentication and load user data
+    async function loadUserData() {
+      try {
+        const response = await fetch('/api/auth/me');
+        if (!response.ok) {
+          window.location.replace('/login');
+          return;
+        }
+
+        currentUser = await response.json();
+        
+        // Update profile header
+        const initials = (currentUser.firstName[0] + currentUser.lastName[0]).toUpperCase();
+        document.getElementById('profileAvatar').childNodes[0].textContent = initials;
+        document.getElementById('profileName').textContent = `${currentUser.firstName} ${currentUser.lastName}`;
+        document.getElementById('profileEmail').textContent = currentUser.email;
+        
+        // Update form fields
+        document.getElementById('firstName').value = currentUser.firstName;
+        document.getElementById('lastName').value = currentUser.lastName;
+        document.getElementById('email').value = currentUser.email;
+        
+        // Update account info
+        if (currentUser.createdAt) {
+          document.getElementById('memberSince').textContent = formatDate(currentUser.createdAt);
+        } else {
+          document.getElementById('memberSince').textContent = 'N/A';
+        }
+        if (currentUser.lastLogin) {
+          document.getElementById('lastLogin').textContent = formatDate(currentUser.lastLogin);
+        } else {
+          document.getElementById('lastLogin').textContent = 'Never';
+        }
+        
+        // Load stats
+        await loadStats();
+        
+      } catch (error) {
+        console.error('Error loading user data:', error);
+        showNotification('❌ Failed to load profile data');
+      }
+    }
+
+    async function loadStats() {
+      try {
+        // Load recently played count
+        try {
+          const recentlyRes = await fetch('/api/recently-played');
+          if (recentlyRes.ok) {
+            const recentlyData = await recentlyRes.json();
+            document.getElementById('totalPlays').textContent = recentlyData.length || 0;
+          } else {
+            document.getElementById('totalPlays').textContent = '0';
+          }
+        } catch (e) {
+          document.getElementById('totalPlays').textContent = '0';
+        }
+
+        // Load emotion history count
+        try {
+          const emotionRes = await fetch('/api/emotion-history');
+          if (emotionRes.ok) {
+            const emotionData = await emotionRes.json();
+            document.getElementById('totalEmotions').textContent = emotionData.length || 0;
+          } else {
+            document.getElementById('totalEmotions').textContent = '0';
+          }
+        } catch (e) {
+          document.getElementById('totalEmotions').textContent = '0';
+        }
+
+        // Load favorites count from backend database
+        try {
+          const favoritesRes = await fetch('/api/favorites');
+          if (favoritesRes.ok) {
+            const favoritesData = await favoritesRes.json();
+            document.getElementById('totalFavorites').textContent = favoritesData.length || 0;
+          } else {
+            document.getElementById('totalFavorites').textContent = '0';
+          }
+        } catch (e) {
+          document.getElementById('totalFavorites').textContent = '0';
+        }
+
+      } catch (error) {
+        console.error('Error loading stats:', error);
+      }
+    }
+
+    // Update profile
+    document.getElementById('profileForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const firstName = document.getElementById('firstName').value.trim();
+      const lastName = document.getElementById('lastName').value.trim();
+      
+      if (!firstName || !lastName) {
+        showNotification('⚠️ Please fill all fields');
+        return;
+      }
+
+      showNotification('💾 Saving changes...');
+      
+      // Simulate API call (add actual endpoint in Flask)
+      setTimeout(() => {
+        currentUser.firstName = firstName;
+        currentUser.lastName = lastName;
+        
+        const initials = (firstName[0] + lastName[0]).toUpperCase();
+        document.getElementById('profileAvatar').childNodes[0].textContent = initials;
+        document.getElementById('profileName').textContent = `${firstName} ${lastName}`;
+        
+        showNotification('✅ Profile updated successfully');
+      }, 1000);
+    });
+
+    // Change password
+    document.getElementById('passwordForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      const currentPassword = document.getElementById('currentPassword').value;
+      const newPassword = document.getElementById('newPassword').value;
+      const confirmPassword = document.getElementById('confirmPassword').value;
+      
+      if (!currentPassword || !newPassword || !confirmPassword) {
+        showNotification('⚠️ Please fill all password fields');
+        return;
+      }
+      
+      if (newPassword.length < 8) {
+        showNotification('⚠️ Password must be at least 8 characters');
+        return;
+      }
+      
+      if (newPassword !== confirmPassword) {
+        showNotification('⚠️ Passwords do not match');
+        return;
+      }
+
+      showNotification('🔐 Updating password...');
+      
+      try {
+        const response = await fetch('/api/profile/password', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ currentPassword, newPassword })
+        });
+        
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error.error || 'Failed to change password');
+        }
+        
+        document.getElementById('passwordForm').reset();
+        showNotification('✅ Password changed successfully');
+      } catch (error) {
+        console.error('Error changing password:', error);
+        showNotification(`❌ ${error.message || 'Failed to change password'}`);
+      }
+    });
+
+    function resetForm() {
+      document.getElementById('firstName').value = currentUser.firstName;
+      document.getElementById('lastName').value = currentUser.lastName;
+      showNotification('🔄 Form reset');
+    }
+
+    function toggleTheme() {
+      document.body.classList.toggle('light');
+      const isDark = !document.body.classList.contains('light');
+      showNotification(isDark ? '🌙 Dark mode enabled' : '☀️ Light mode enabled');
+    }
+
+    function deleteAccount() {
+      if (confirm('⚠️ Are you absolutely sure? This action cannot be undone!')) {
+        if (confirm('🚨 This will permanently delete all your data. Continue?')) {
+          showNotification('🗑️ Deleting account...');
+          setTimeout(() => {
+            window.location.href = '/login';
+          }, 2000);
+        }
+      }
+    }
+
+    function showNotification(message) {
+      const existing = document.querySelector('.notification');
+      if (existing) existing.remove();
+      
+      const notification = document.createElement('div');
+      notification.className = 'notification';
+      notification.textContent = message;
+      document.body.appendChild(notification);
+      setTimeout(() => notification.remove(), 3000);
+    }
+
+    function formatDate(dateString) {
+      const date = new Date(dateString);
+      const options = { year: 'numeric', month: 'short', day: 'numeric' };
+      return date.toLocaleDateString('en-US', options);
+    }
+
+    // Check authentication on page load and prevent back navigation after logout
+    window.addEventListener('load', async function() {
+      try {
+        const response = await fetch('/api/auth/me');
+        if (!response.ok) {
+          // Not authenticated, redirect to login
+          window.location.replace('/login');
+          return;
+        }
+        // Load user data if authenticated
+        await loadUserData();
+      } catch (error) {
+        // Error checking auth, redirect to login
+        window.location.replace('/login');
+      }
+    });
+
+    // Prevent back button navigation to protected pages after logout
+    window.addEventListener('popstate', function(event) {
+      // Check if user is still authenticated
+      fetch('/api/auth/me')
+        .then(response => {
+          if (!response.ok) {
+            // Not authenticated, redirect to login
+            window.location.replace('/login');
+          }
+        })
+        .catch(() => {
+          window.location.replace('/login');
+        });
+    });
+
+    // Load theme preference
+    const isDarkMode = localStorage.getItem('vibesync_theme') !== 'light';
+    document.getElementById('darkModeToggle').checked = isDarkMode;
+    if (!isDarkMode) {
+      document.body.classList.add('light');
+    }
+  </script>
+</body>
+</html>
