@@ -1,10 +1,9 @@
-python-3.10.12
 Flask==3.0.0
-Flask-Cors==4.0.0
-
+flask-cors==4.0.0
 deepface==0.0.92
-tensorflow==2.12.0
-opencv-python==4.7.0.72
-numpy==1.23.5
-pillow==10.0.1
-mediapipe==0.9.1.0
+opencv-python==4.8.1.78
+numpy==1.24.3
+pillow
+tensorflow==2.13.0
+gunicorn
+mediapipe
