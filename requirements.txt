@@ -1,0 +1,9 @@
+Flask==3.0.0
+flask-cors==4.0.0
+deepface==0.0.92
+opencv-python==4.8.1.78
+numpy==1.24.3
+Pillow==10.1.0
+pymongo==4.6.0
+Werkzeug==3.0.1
+tensorflow==2.15.0
