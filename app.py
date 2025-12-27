@@ -1,6 +1,7 @@
 from flask import Flask, render_template, jsonify, request, session, redirect, url_for
-from deepface import DeepFace
 import cv2
+from tensorflow import keras
+import tensorflow as tf
 import numpy as np
 import base64
 import io
@@ -15,10 +16,14 @@ import hashlib
 import secrets
 from functools import wraps
 from werkzeug.utils import secure_filename
+from deepface import DeepFace
 
 app = Flask(__name__)
 app.secret_key = secrets.token_hex(32)  # Secret key for sessions
 CORS(app)
+
+print("\n🔄 Loading Custom Emotion Detection Model...")
+MODEL_PATH = 'fer2013_best_model.keras'
 
 # File upload configuration
 UPLOAD_FOLDER = 'static/uploads'
